@@ -1,16 +1,40 @@
-function validatePhone() {
-    var phone = document.getElementById("phone").value;
-    if (phone.length == 10 && /^\d+$/.test(phone) &&
-        ((phone.charAt(0) == '5' && phone.charAt(1) == '1' && phone.charAt(2) == '4') ||
-         (phone.charAt(0) == '4' && phone.charAt(1) == '3' && phone.charAt(2) == '8'))) {
-      showAlert("Valid", "alert-success");
-    } else {
-      showAlert("Invalid", "alert-danger");
-    }
+async function lookupPhone() {
+  const phone = document.getElementById("phone").value.trim();
+  const resultEl = document.getElementById("result");
+  resultEl.className = "alert";
+
+  if (!phone) {
+    resultEl.textContent = "Please enter a phone number.";
+    resultEl.classList.add("alert-danger");
+    return;
   }
 
-  function showAlert(message, alertType) {
-    var alert = document.getElementById("alert");
-    alert.innerHTML = message;
-    alert.className = "alert " + alertType;
+  const apiKey = "YOUR_API_KEY"; // Replace with your API key
+  const url = `https://api.apilayer.com/number_verification/validate?number=${encodeURIComponent(phone)}`;
+
+  try {
+    const response = await fetch(url, { headers: { apikey: apiKey } });
+    if (!response.ok) {
+      throw new Error("Lookup request failed");
+    }
+    const data = await response.json();
+    if (data.error) {
+      throw new Error(data.error.info || "Lookup failed");
+    }
+
+    const info = [
+      `Country: ${data.country_name || "N/A"}`,
+      `Location: ${data.location || "N/A"}`,
+      `Carrier: ${data.carrier || "N/A"}`,
+      `Line type: ${data.line_type || "N/A"}`,
+      `In use: ${data.valid ? "Yes" : "No"}`,
+    ].join("<br>");
+
+    resultEl.innerHTML = info;
+    resultEl.classList.add(data.valid ? "alert-success" : "alert-danger");
+  } catch (err) {
+    resultEl.textContent = err.message;
+    resultEl.classList.add("alert-danger");
   }
+}
+

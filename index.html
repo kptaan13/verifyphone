@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Phone Number Validation</title>
+  <title>Phone Number Lookup</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
     <form>
-      <h1>Phone Number Validation</h1>
-      <p>Enter number in (1234567892) format:</p>
-      <label for="phone">Enter Phone Number:</label>
+      <h1>Phone Number Lookup</h1>
+      <p>Enter a phone number with country code:</p>
+      <label for="phone">Phone Number:</label>
       <input type="text" id="phone" name="phone" required>
-      <button type="button" onclick="validatePhone()">Validate</button>
-      <div id="alert" class="alert"></div>
+      <button type="button" onclick="lookupPhone()">Lookup</button>
+      <div id="result" class="alert"></div>
     </form>
   </div>
   <script src="java.js"></script>
