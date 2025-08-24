@@ -1,5 +1,5 @@
 function validatePhone() {
-    var phone = document.getElementById("phone").value;
+    var phone = document.getElementById("phone").value.trim();
     if (phone.length == 10 && /^\d+$/.test(phone) &&
         ((phone.charAt(0) == '5' && phone.charAt(1) == '1' && phone.charAt(2) == '4') ||
          (phone.charAt(0) == '4' && phone.charAt(1) == '3' && phone.charAt(2) == '8'))) {
